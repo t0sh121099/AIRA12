@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Computational Exam for Topic <%= topicId %></title>
+    <link rel="stylesheet" type="text/css" href="/exam.css">
+
+    <!-- MathJax Configuration and Script for LaTeX Rendering -->
+    <script>
+
+        function onFormSubmit() {
+            alert("Submission successful!");
+        }
+
+        document.getElementById('examForm').addEventListener('submit', function(event) {
+    let allAnswered = true;
+    document.querySelectorAll('.answer-input').forEach(input => {
+        if (input.value.trim() === '') {
+            allAnswered = false;
+        }
+    });
+
+    if (!allAnswered) {
+        event.preventDefault();
+        alert('Please answer all questions before submitting.');
+    }
+});
+
+    </script>
+<script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+<script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+</head>
+<body>
+    <h1>Computational Questions for Topic <%= topicId %></h1>
+    <h2>Direction: Answer should be always have (\). so that the system while read it as a mathematic variable. example (--\(h'(x) = \sec^2)--)</h2>
+    <!-- Update action URL to the correct route for computational question submission -->
+    <form method="post" action="/submit-computational-exam/<%= topicId %>" onsubmit="onFormSubmit();">
+        <ul>
+            <% questions.forEach(function(question, index) { %>
+                <li>
+                    <p><strong>Question:</strong> <%- question.question %></p>
+                    <!-- Include a hidden field to send the question ID if available -->
+                    <% if (question.id) { %>
+                        <input type="hidden" name="questionId<%= index %>" value="<%= question.id %>">
+                    <% } %>
+                    <input type="text" name="answers[<%= index %>]" placeholder="Enter your answer here">
+                </li>
+            <% }) %>
+        </ul>
+        <button type="submit">Submit Answers</button>
+    </form>
+</body>
+</html>

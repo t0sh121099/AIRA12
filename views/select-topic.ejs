@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Select Topic for Exam</title>
+    <link rel="stylesheet" href="/select-topic.css">
+    <link rel="stylesheet" href="/modal.css">
+</head>
+<body>
+<div class="container">
+    <h1>Select a Topic</h1>
+    <ul>
+        <% topics.forEach(function(topic) { %>
+            <li><a href="#" onclick="showOptions('<%= topic.TopicID %>', '<%= topic.TopicName %>')" class="button"><%= topic.TopicName %></a></li>
+        <% }); %>
+    </ul>
+    <a href="/homepage" class="button back-button-red">Back to Dashboard</a>
+</div>
+
+<div id="loadingSpinner" style="display: none; position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); z-index: 1000;">
+    <div class="spinner"></div>
+</div>
+
+<!-- Modal -->
+<div id="topicModal" class="modal">
+    <div class="modal-content">
+        <span class="close">&times;</span>
+        <h2 id="modalTitle"></h2>
+        <div id="initialOptions">
+            <a href="#" id="reviewLink" class="button" onclick="showReviewOptions(event)">Review Topic</a>
+            <a href="#" id="examLink" class="button" onclick="showExamOptions(event)">Take Exam</a>
+            <a href="/homepage" class="button back-button-red">Back to Dashboard</a>
+        </div>
+        <div id="reviewOptions" style="display:none;">
+            <a href="#" id="webReviewLink" class="button">Review on Web</a>
+            <a href="#" id="emailReviewLink" class="button">Send Review Copy via Email</a>
+            <a href="/homepage" class="button back-button-red">Back to Dashboard</a>
+        </div>
+        <div id="examOptions" style="display:none;">
+            <a href="#" id="webExamOption" class="button" onclick="openExamOnWeb(event)">Take Exam on Web</a>
+            <a href="#" id="emailExamOption" class="button" onclick="openExamviaEmail(event)">Send Exam via Email</a>
+            <a href="/homepage" class="button back-button-red">Back to Dashboard</a>
+        </div>
+        <div id="examOnWeb" style="display:none;">
+            <a href="#" id="multipleChoiceWeb" class="button" onclick="takeMultiplechoice(event)">Multiple Choice Questions</a>
+            <a href="#" id="computationalWeb" class="button" onclick="takeComputational(event)">Computational Problems</a>
+            <a href="/homepage" class="button back-button-red">Back to Dashboard</a>
+        </div>
+        <div id="examViaEmail" style="display:none;">
+            <a href="#" id="multipleChoiceEmail" class="button" onclick="sendMultiplechoice(event)">Multiple Choice Questions</a>
+            <a href="#" id="computationalEmail" class="button" onclick="sendComputationalExamEmail()">Computational Problems</a>
+            <a href="/homepage" class="button back-button-red">Back to Dashboard</a>
+        </div>
+    </div>
+</div>
+
+<style>
+    .spinner {
+        border: 6px solid #f3f3f3;
+        border-radius: 50%;
+        border-top: 6px solid #3498db;
+        width: 60px;
+        height: 60px;
+        animation: spin 2s linear infinite;
+    }
+    
+    @keyframes spin {
+        0% { transform: rotate(0deg); }
+        100% { transform: rotate(360deg); }
+    }
+    </style>
+    
+<script src="select-topic.js"></script>
+
+</body>
+</html>

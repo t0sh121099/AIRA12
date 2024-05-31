@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Exam for Topic: <%= topicName %></title>
+    <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+</head>
+<body>
+    <h1>Exam for Topic: <%= topicName %> (<%= questionType %>)</h1>
+    <div>
+        <% questions.forEach(function(q) { %>
+            <p><%= q.text %></p>
+            <ul>
+                <% for (const [key, value] of Object.entries(q.options)) { %>
+                    <li><%= key %>: <%= value %></li>
+                <% } %>
+            </ul>
+        <% }); %>
+    </div>
+    <script>
+        MathJax.typeset();
+    </script>
+</body>
+</html>

@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Exam</title>
+    <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <link rel="stylesheet" type="text/css" href="/exam.css"> 
+
+    <script>
+        // This function will be called when the form is submitted
+        function onFormSubmit() {
+            alert("Submission successful!");
+        }
+    </script>
+</head>
+<body>
+    <h1>Exam</h1>
+    <form action="/submit-exam/<%= topicId %>" method="post" onsubmit="onFormSubmit();">
+        <% if (questions && questions.length > 0) { %>
+            <% questions.forEach(function(question, index) { %>
+                <div class="question">
+                    <p><%= index + 1 %>. <%= question.text %></p>
+                    <!-- Include hidden input to specify the type of each question -->
+                    <input type="hidden" name="questionType<%= index %>" value="<%= question.type %>">
+                    <% if(question.options) { %>
+                        <% Object.keys(question.options).forEach(function(option) { %>
+                            <label>
+                                <input type="radio" name="answer<%= index %>" value="<%= option %>">
+                                <%= option %>: <%= question.options[option] %>
+                            </label><br>
+                            <% }); %>
+                    <% } else { %>
+                        <!-- Assuming this is a computational question, provide a text input -->
+                        <input type="text" name="answer<%= index %>" placeholder="Enter your answer">
+                    <% } %>
+                </div>
+            <% }); %>
+        <% } else { %>
+            <p>No questions available.</p>
+        <% } %>
+        <button type="submit">Submit Exam</button>
+    </form>
+</body>
+</html>
